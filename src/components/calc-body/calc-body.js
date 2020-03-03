@@ -1,15 +1,19 @@
 import React, {useState} from 'react';
 import './calc-body.css';
 
-const CalcBody = () => {
+const CalcBody = props => {
   const [amountOne, setAmountOne] = useState('');
   const [amountTwo, setAmountTwo] = useState('');
   const [selectedOne, setSelectedOne] = useState('USD');
   const [selectedTwo, setSelectedTwo] = useState('JPY');
 
-  const handleClick = e => {
-    console.log(e.target.value);
+  const handleClick = () => {
+    props.getInputs(selectedOne, selectedTwo, amountOne, amountTwo);
   };
+
+  if (props.exchangeRate !== null) {
+    setAmountTwo(props.exchangeRate.toFixed(2));
+  }
 
   return (
     <div className='container'>
@@ -84,7 +88,9 @@ const CalcBody = () => {
         <button className='btn' onClick={handleClick}>
           Swap
         </button>
-        <div className='rate'></div>
+        <div className='rate'>
+          {props.exchangeRate ? props.exchangeRate : null}{' '}
+        </div>
       </div>
 
       <div className='currency'>
